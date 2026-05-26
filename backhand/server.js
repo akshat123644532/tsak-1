@@ -16,7 +16,7 @@ connectDB();
 app.get("/",(req,res)=>{
     res.send("server is working");
 });
-app.get("/register", async (req, res) => {
+app.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     if(!name||!email||!password){
         return res.send("all field are required")
