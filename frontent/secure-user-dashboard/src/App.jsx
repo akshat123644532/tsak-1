@@ -1,17 +1,25 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import Header from "./pages/Header";
+import Footer from "./pages/Footer";
+import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <Routes>
-  <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/home" element={<Home />} />
-    </Routes>
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Header />
+      <main className="flex-grow">
+  
+        <Routes>
+          <Route path="/" element={<Navigate to="/auth" replace />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="*" element={<Navigate to="/auth" replace />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 
