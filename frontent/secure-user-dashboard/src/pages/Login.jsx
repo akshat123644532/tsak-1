@@ -2,44 +2,41 @@ import React, { useState } from "react";
 
 function Login() {
   const [data, setData] = useState({
-    name: "",
+    email: "",
     password: "",
   });
 
   const FormData = (e) => {
-    console.log(e.target.value)
     setData({
       ...data,
       [e.target.name]: e.target.value,
     });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5050/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-  try {
-    const response = await fetch("http://localhost:5050/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+      const result = await response.json();
 
-    const result = await response.json();
-
-    console.log(result);
-
-    
-    localStorage.setItem("token", result.token);
-
-    alert("Login Successful");
-  } catch (error) {
-    console.log(error);
-
-    alert("Login Failed");
-  }
-};
+      if (response.ok && result.token) {
+        localStorage.setItem("token", result.token);
+        alert("Login successful");
+      } else {
+        alert(result.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -51,9 +48,10 @@ const handleSubmit = async (e) => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <input
-              name="name"
+              name="email" // <-- PEHLE YAHAN "name" LIKHA THA, USE "email" KAR DIYA
+              value={data.email}
               onChange={FormData}
-              type="text"
+              type="email" // text se email kar diya taaki basic validation ho sake
               placeholder="Enter your email"
               className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-blue-500"
             />
@@ -62,6 +60,7 @@ const handleSubmit = async (e) => {
           <div>
             <input
               name="password"
+              value={data.password}
               onChange={FormData}
               type="password"
               placeholder="Enter your password"
@@ -82,4 +81,3 @@ const handleSubmit = async (e) => {
 }
 
 export default Login;
-
