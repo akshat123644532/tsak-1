@@ -13,13 +13,30 @@ function Signup() {
     setFormData({  ...formData,  [e.target.name]: e.target.value, });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log(formData);
+  try {
+    const response = await fetch("http://localhost:5050/api/auth/register", {
+      method: "POST",
 
-    alert("Form Submitted");
-  };
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    console.log(result);
+
+    alert(result.message);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
