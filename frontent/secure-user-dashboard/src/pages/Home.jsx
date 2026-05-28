@@ -5,7 +5,7 @@ function Home() {
   const [userData, setUserData] = useState(null);
   const [leaves, setLeaves] = useState([]);
   const [formData, setFormData] = useState({
-    leaveType: "Sick Leave",
+    leaveType: "",
     startDate: "",
     endDate: "",
     reason: "",
@@ -64,6 +64,10 @@ function Home() {
 
   const handleApplyLeave = async (e) => {
     e.preventDefault();
+    if (!formData.leaveType || formData.leaveType === "") {
+      alert("Bhai, pehle chutti ka type choose karo!");
+      return;
+    }
     try {
       const response = await fetch("http://localhost:5050/api/auth/leave/apply", {
         method: "POST",
@@ -80,7 +84,7 @@ function Home() {
         alert("Leave applied successfully!");
         setLeaves([result.leave, ...leaves]);
         setFormData({
-          leaveType: "Sick Leave",
+          leaveType: "",
           startDate: "",
           endDate: "",
           reason: "",
@@ -121,25 +125,6 @@ function Home() {
         </button>
       </div>
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Pending Requests</span>
-          <p className="text-2xl font-bold text-yellow-600 mt-1">
-            {leaves.filter((l) => l.status === "Pending").length}
-          </p>
-        </div>
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Approved Leaves</span>
-          <p className="text-2xl font-bold text-green-600 mt-1">
-            {leaves.filter((l) => l.status === "Approved").length}
-          </p>
-        </div>
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Total Applications</span>
-          <p className="text-2xl font-bold text-gray-700 mt-1">{leaves.length}</p>
-        </div>
-      </div>
-
       <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -155,10 +140,12 @@ function Home() {
                 value={formData.leaveType}
                 onChange={handleChange}
                 className="w-full border border-gray-200 p-2.5 rounded-lg outline-none focus:border-blue-500 bg-gray-50 text-sm"
+                required
               >
+                <option value="" disabled>choose Leave</option>
                 <option value="Sick Leave">Sick Leave</option>
                 <option value="Casual Leave">Casual Leave</option>
-                <option value="Paid Leave">Paid Leave</option>
+                <option value="Urgent Leave">Urgent Leave</option>
               </select>
             </div>
 
