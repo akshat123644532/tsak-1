@@ -14,7 +14,6 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-       
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: "User already registered" });
@@ -30,6 +29,7 @@ router.post("/register", async (req, res) => {
 
         res.status(201).json({ message: "Registration successful", user });
     } catch (error) {
+        console.error("REGISTRATION ERROR:", error);
         res.status(500).json({ message: "Server error during registration" });
     }
 });
@@ -61,9 +61,11 @@ router.post("/login", async (req, res) => {
             token
         });
     } catch (error) {
+        console.error("🔥 LOGIN ERROR:", error);
         res.status(500).json({ message: "Server error during login" });
     }
 });
+
 router.post("/leave/apply", authMiddleware, async (req, res) => {
     try {
         const { leaveType, startDate, endDate, reason } = req.body;
@@ -82,15 +84,19 @@ router.post("/leave/apply", authMiddleware, async (req, res) => {
 
         res.status(201).json({ message: "Leave applied successfully", leave: newLeave });
     } catch (error) {
+        console.error("LEAVE ERROR:", error);
         res.status(500).json({ message: "Server error during leave application" });
     }
 });
+
 router.get("/home/my-leaves", authMiddleware, async (req, res) => {
     try {
         const myLeaves = await Leave.find({ userId: req.user.id }).sort({ createdAt: -1 });
         res.json({ leaves: myLeaves });
     } catch (error) {
+        console.error("🔥 FETCH LEAVES ERROR:", error);
         res.status(500).json({ message: "Server error fetching leaves" });
     }
 });
+
 module.exports = router;
