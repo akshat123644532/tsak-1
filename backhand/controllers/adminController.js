@@ -7,7 +7,7 @@ exports.getAllLeaves = async (req, res) => {
         const leaves = await Leave.find().populate("userId", "name email"); 
         res.status(200).json(leaves);
     } catch (error) {
-        console.error("🔥 ADMIN FETCH ERROR:", error);
+        console.error(" ADMIN FETCH ERROR:", error);
         res.status(500).json({ message: "Server error while fetching leaves" });
     }
 };
