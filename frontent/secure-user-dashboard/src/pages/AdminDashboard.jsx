@@ -29,8 +29,8 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">T Admin Panel </h1>
-        <h2 className="text-lg font-semibold text-gray-600 mb-4">Student Leave Requests</h2>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6"> Admin Panel </h1>
+        <h2 className="text-lg font-semibold text-gray-600 mb-4">employ Leave Requests</h2>
         
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">

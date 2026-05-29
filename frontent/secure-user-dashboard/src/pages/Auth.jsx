@@ -39,8 +39,15 @@ function Auth() {
 
       if (response.ok && result.token) {
         localStorage.setItem("token", result.token);
+        localStorage.setItem("role", result.role || "student");
+        
         alert("Login successful!");
-        window.location.href = "/home";
+        
+        if (result.role === "admin") {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/home";
+        }
       } else {
         alert(result.message || "Invalid credentials");
       }
@@ -132,7 +139,6 @@ function Auth() {
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Email
                   </label>
-
                   <input
                     name="email"
                     type="email"
@@ -148,7 +154,6 @@ function Auth() {
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Password
                   </label>
-
                   <input
                     name="password"
                     type="password"
@@ -195,7 +200,6 @@ function Auth() {
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Name
                   </label>
-
                   <input
                     name="name"
                     type="text"
@@ -211,7 +215,6 @@ function Auth() {
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Email
                   </label>
-
                   <input
                     name="email"
                     type="email"
@@ -227,7 +230,6 @@ function Auth() {
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Password
                   </label>
-
                   <input
                     name="password"
                     type="password"
